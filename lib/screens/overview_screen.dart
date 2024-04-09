@@ -3,9 +3,8 @@ import 'package:lodseriet/models/pilot_job.dart';
 import 'package:lodseriet/widgets/job_list_widget.dart';
 
 class Overview extends StatelessWidget {
-  final List<PilotJob> jobs;
 
-  const Overview({super.key, required this.jobs});
+  const Overview({super.key});
 
 
   @override
@@ -14,7 +13,7 @@ class Overview extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Overtid'),
       ),
-      body: PilotJobListWidget(jobs: jobs),
+      body: PilotJobListWidget(),
     );
   }
 }

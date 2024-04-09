@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lodseriet/job_provider.dart';
 import 'package:lodseriet/widgets/pilot_job_widget.dart';
 import 'package:lodseriet/models/pilot_job.dart';
 
-class PilotJobListWidget extends StatelessWidget {
-  final List<PilotJob> jobs;
+class PilotJobListWidget extends ConsumerStatefulWidget {
+  const PilotJobListWidget({super.key});
 
-  const PilotJobListWidget({super.key, required this.jobs});
+  @override
+  _PilotJobListWidgetState createState() => _PilotJobListWidgetState();
+}
 
+class _PilotJobListWidgetState extends ConsumerState<PilotJobListWidget> {
   Widget _buildTableHeader() {
     return Table(
       columnWidths: const {
@@ -52,6 +57,7 @@ class PilotJobListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final jobs = ref.watch(jobListProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -64,7 +70,14 @@ class PilotJobListWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               return Column(
                 children: [
-                  PilotJobWidget(job: jobs[index],),
+                  PilotJobWidget(
+                    job: jobs[index],
+                    handleJob:
+                    () => print("object")
+                        // () => ref.read(jobListProvider.notifier).handleJob(jobs[index])
+                      // ref.read(jobListProvider.notifier).handleJob(jobs[index]);
+                    ,
+                  ),
                   const Divider(
                       height: 1, color: Colors.grey), // Dividers between rows
                 ],

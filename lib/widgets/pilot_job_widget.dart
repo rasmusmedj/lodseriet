@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lodseriet/models/pilot_job.dart';
-import 'package:lodseriet/screens/job_detail.dart';
+import 'package:lodseriet/screens/job_detail_screen.dart';
 
 class PilotJobWidget extends StatelessWidget {
   final PilotJob job;
+  final Function() handleJob;
 
-  const PilotJobWidget({super.key, required this.job});
+  const PilotJobWidget(
+      {super.key, required this.job, required this.handleJob});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,10 @@ class PilotJobWidget extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => JobDetailScreen(job: job),
+            builder: (context) => JobDetailScreen(
+              job: job,
+              handleJob: handleJob,
+            ),
           ),
         );
       },
@@ -25,9 +30,9 @@ class PilotJobWidget extends StatelessWidget {
         columnWidths: const {
           0: FlexColumnWidth(2),
           1: FlexColumnWidth(3),
-          2: FixedColumnWidth(80), // Sync width with header
-          3: FixedColumnWidth(64), // Sync width with header
-          4: FixedColumnWidth(40), // Sync width with header
+          2: FixedColumnWidth(80),
+          3: FixedColumnWidth(64),
+          4: FixedColumnWidth(40),
         },
         border: TableBorder.symmetric(
           inside: BorderSide(
@@ -38,12 +43,12 @@ class PilotJobWidget extends StatelessWidget {
           TableRow(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(vertical: 50),
                 child:
                     Text(formattedDate, style: const TextStyle(fontSize: 16)),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(vertical: 50),
                 child: Text(
                   job.shipName.length > 10
                       ? '${job.shipName.substring(0, 12)}...'
@@ -52,24 +57,26 @@ class PilotJobWidget extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(0),
+                padding: const EdgeInsets.symmetric(vertical: 50),
                 child: Text(
                   job.imoNumber.toString(),
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(vertical: 50),
                 child: Text(
                   '${job.surplusHours}',
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(vertical: 50),
                 child: Icon(
-                  job.isHandled ? Icons.check : Icons.check_box_outline_blank,
-                  color: job.isHandled ? Colors.green : Colors.red,
+                  job.isHandled
+                      ? Icons.check_box_rounded
+                      : Icons.check_box_outline_blank,
+                  color: job.isHandled ? Colors.green : Colors.grey,
                 ),
               ),
             ],
